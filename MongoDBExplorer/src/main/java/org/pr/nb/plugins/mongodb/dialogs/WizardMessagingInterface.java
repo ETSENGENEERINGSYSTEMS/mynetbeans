@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pr.nb.plugins.mongodb.nodes;
+package org.pr.nb.plugins.mongodb.dialogs;
 
 import org.openide.WizardDescriptor;
 
@@ -26,4 +26,6 @@ public interface WizardMessagingInterface {
     public void readSettings(WizardDescriptor wiz);
 
     public void storeSettings(WizardDescriptor wiz);
+    
+    public boolean isDataValid();
 }

@@ -15,34 +15,26 @@
  */
 package org.pr.nb.plugins.mongodb.dialogs;
 
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
-import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 
-public class NewMongDBInstanceTestConnectionWizardPanel implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
+public class MongoInstanceTestConnectionWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
 
     /**
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
      */
-    private NewMongDBInstanceTestConnectionVisualPanel component;
-    private ChangeSupport changeSupport;
-
-    public NewMongDBInstanceTestConnectionWizardPanel(ChangeSupport changeSupport) {
-        this.changeSupport = changeSupport;
-        addChangeListener(this);
-    }
+    private MongoInstanceTestConnectionVisualPanel component;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
     @Override
-    public NewMongDBInstanceTestConnectionVisualPanel getComponent() {
+    public MongoInstanceTestConnectionVisualPanel getComponent() {
         if (component == null) {
-            component = new NewMongDBInstanceTestConnectionVisualPanel(changeSupport);
+            component = new MongoInstanceTestConnectionVisualPanel();
         }
         return component;
     }
@@ -58,7 +50,7 @@ public class NewMongDBInstanceTestConnectionWizardPanel implements WizardDescrip
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        return component.isConnectionValid();
+        return component.isDataValid();
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
@@ -67,33 +59,21 @@ public class NewMongDBInstanceTestConnectionWizardPanel implements WizardDescrip
 
     @Override
     public void addChangeListener(ChangeListener l) {
-        changeSupport.addChangeListener(l);
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
-        changeSupport.removeChangeListener(l);
     }
 
     @Override
     public void readSettings(WizardDescriptor wiz) {
         component.readSettings(wiz);
+        // use wiz.getProperty to retrieve previous panel state
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         component.storeSettings(wiz);
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        removeChangeListener(this);
-        super.finalize(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

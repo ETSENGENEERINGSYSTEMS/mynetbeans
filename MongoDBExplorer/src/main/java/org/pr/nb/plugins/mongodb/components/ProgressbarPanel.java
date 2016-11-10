@@ -15,6 +15,7 @@
  */
 package org.pr.nb.plugins.mongodb.components;
 
+import java.awt.Color;
 import org.openide.util.NbBundle;
 
 /**
@@ -22,7 +23,9 @@ import org.openide.util.NbBundle;
  * @author Mahakaal
  */
 @NbBundle.Messages({
-    "LBL_PROGRESS_TITLE=Please wait..."
+    "LBL_PROGRESS_TITLE=Please wait...",
+    "LBL_PROGRESS_TITLE_SUCCESS=Connected",
+    "LBL_PROGRESS_TITLE_FAILED=Connection failed"
 })
 public class ProgressbarPanel extends javax.swing.JPanel {
 
@@ -31,13 +34,20 @@ public class ProgressbarPanel extends javax.swing.JPanel {
      */
     public ProgressbarPanel() {
         initComponents();
-        setVisible(false);
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        testingProgressBar.setIndeterminate(visible);
-        super.setVisible(visible);
+    public  void start(){
+        testingProgressBar.setIndeterminate(true);
+    }
+    public void stop(boolean successful){
+        testingProgressBar.setIndeterminate(false);
+        if(successful){
+            titleLabel.setText(Bundle.LBL_PROGRESS_TITLE_SUCCESS());
+            titleLabel.setForeground(Color.GREEN);
+        }else{
+            titleLabel.setText(Bundle.LBL_PROGRESS_TITLE_FAILED());
+            titleLabel.setForeground(Color.RED);
+        }
     }
 
     /**
@@ -49,41 +59,40 @@ public class ProgressbarPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
         testingProgressBar = new javax.swing.JProgressBar();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, Bundle.LBL_PROGRESS_TITLE());
+        org.openide.awt.Mnemonics.setLocalizedText(titleLabel, Bundle.LBL_PROGRESS_TITLE());
+
+        testingProgressBar.setValue(100);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(testingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titleLabel)
+                    .addComponent(testingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, testingProgressBar});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(testingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, testingProgressBar});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {testingProgressBar, titleLabel});
 
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar testingProgressBar;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -25,17 +25,17 @@ import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
  */
 public class PropertiesNotifier {
 
-    private static final PropertyChangeSupport changeSupport = new PropertyChangeSupport(PropertiesNotifier.class);
+    private static final PropertyChangeSupport CHANGE_SUPPORT = new PropertyChangeSupport(PropertiesNotifier.class);
 
     public static void addPropertyChangeListener(PropertyNames propertyName, PropertyChangeListener l) {
-        changeSupport.addPropertyChangeListener(propertyName.name(), l);
+        CHANGE_SUPPORT.addPropertyChangeListener(propertyName.name(), l);
     }
 
     public static void removePropertyChangeListener(PropertyNames propertyName, PropertyChangeListener l) {
-        changeSupport.removePropertyChangeListener(propertyName.name(), l);
+        CHANGE_SUPPORT.removePropertyChangeListener(propertyName.name(), l);
     }
 
     public static void fireNewMongoDBInstance(MongoDBInstance newInstance) {
-        changeSupport.firePropertyChange(PropertyNames.NEW_MONGODB_INSTANCE.name(), null, newInstance);
+        CHANGE_SUPPORT.firePropertyChange(PropertyNames.NEW_MONGODB_INSTANCE.name(), null, newInstance);
     }
 }

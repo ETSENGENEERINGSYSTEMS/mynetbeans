@@ -29,26 +29,23 @@ import org.openide.util.datatransfer.NewType;
 import org.pr.nb.plugins.mongodb.components.PropertiesNotifier;
 import org.pr.nb.plugins.mongodb.components.PropertyNames;
 import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
-import org.pr.nb.plugins.mongodb.dialogs.NewMongDBInstanceDetailsWizardPanel;
-import org.pr.nb.plugins.mongodb.dialogs.NewMongDBInstanceTestConnectionWizardPanel;
+import org.pr.nb.plugins.mongodb.dialogs.MongoInstanceTestConnectionWizardPanel;
 
 /**
  *
  * @author Mahakaal
  */
 @NbBundle.Messages({
-    "LBL_NEWTYPE_INSTANCE=New MongoDB Instance"
+    "LBL_NEWTYPE_INSTANCE=MongoDB Instance"
 })
 class MongoDBInstanceType extends NewType {
 
     public MongoDBInstanceType() {
     }
 
-    private void launchWizard() {
-        ChangeSupport changeSupport = new ChangeSupport(this);
-        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
-        panels.add(new NewMongDBInstanceDetailsWizardPanel(changeSupport));
-        panels.add(new NewMongDBInstanceTestConnectionWizardPanel(changeSupport));
+    private void launchWizard(ChangeSupport changeSupport) {
+        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
+        panels.add(new MongoInstanceTestConnectionWizardPanel());
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
             Component c = panels.get(i).getComponent();
@@ -63,7 +60,7 @@ class MongoDBInstanceType extends NewType {
                 jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
             }
         }
-        WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<WizardDescriptor>(panels));
+        WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wiz.setTitleFormat(new MessageFormat("{0} ({1})"));
         wiz.setTitle(Bundle.LBL_NEWTYPE_INSTANCE());
@@ -80,7 +77,8 @@ class MongoDBInstanceType extends NewType {
 
     @Override
     public void create() throws IOException {
-        launchWizard();
+        ChangeSupport changeSupport = new ChangeSupport(this);
+        launchWizard(changeSupport);
     }
 
 }
